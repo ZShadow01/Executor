@@ -1,0 +1,8 @@
+.env
+test.py
+package-lock.json
+app/database/.db
+app/database/.db-shm
+app/database/.db-wal
+archive/
+node_modules/
