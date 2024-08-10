@@ -30,6 +30,20 @@ class PlayerNameTakenError extends AbstractError {
 };
 
 
+class GuildNotConfigured extends AbstractError {
+    constructor() {
+        super("The server has not been configured yet.");
+    }
+};
+
+
+class MissingPermissionsError extends AbstractError {
+    constructor(permission) {
+        super(`Missing Permission: ${permission}`);
+    }
+}
+
+
 module.exports = {
     UserNotRegisteredError,
     PlayerAlreadyRegisteredError,
