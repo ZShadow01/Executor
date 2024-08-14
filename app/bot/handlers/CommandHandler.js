@@ -3,6 +3,7 @@ const errors = require('../../errors/errors');
 const fs = require('fs');
 const path = require('path');
 const EmbedService = require('../../services/EmbedService');
+const GuildService = require('../../services/GuildService');
 
 
 class CommandHandler {
@@ -53,6 +54,12 @@ class CommandHandler {
         }
 
         try {
+            const guildConfig = GuildService.getConfig(interaction.guildId);
+            console.log(guildConfig);
+            if (!guildConfig && command.data.name !== 'setup') {
+                throw new errors.GuildNotConfiguredError();
+            }
+
             await command.execute(interaction);
         } catch (err) {
             let embed;
