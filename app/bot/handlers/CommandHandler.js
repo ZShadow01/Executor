@@ -54,6 +54,7 @@ class CommandHandler {
         }
 
         try {
+            // Check if guild is configured
             const guildConfig = GuildService.getConfig(interaction.guildId);
             console.log(guildConfig);
             if (!guildConfig && command.data.name !== 'setup') {
