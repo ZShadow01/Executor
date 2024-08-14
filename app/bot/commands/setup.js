@@ -1,5 +1,8 @@
 const { SlashCommandBuilder, PermissionsBitField, ChatInputCommandInteraction, ChannelType } = require('discord.js');
 const GuildService = require('../../services/GuildService');
+const { MissingPermissionError } = require('../../errors/errors');
+const EmbedService = require('../../services/EmbedService');
+const LoggerService = require('../../services/LoggerService');
 
 
 module.exports = {
@@ -17,7 +20,7 @@ module.exports = {
         const botMember = await interaction.guild.members.fetchMe();
         const botPermissions = botMember.permissions;
         if (!botPermissions.has(PermissionsBitField.Flags.ManageChannels)) {
-            throw new 
+            throw new MissingPermissionError('MANAGE_CHANNEL');
         }
 
         // Check if guild is setup already (reset)
@@ -27,23 +30,23 @@ module.exports = {
         }
 
         // Log channel
-        interaction.guild.channels.create({
+        const logChannel = await interaction.guild.channels.create({
             name: 'ap-log',
             type: ChannelType.GuildText,
             permissionOverwrites: [
                 {
                     id: interaction.guildId,
                     deny: [ PermissionsBitField.Flags.SendMessages ]
+                },
+                {
+                    id: interaction.client.user.id,
+                    allow: [ PermissionsBitField.Flags.SendMessages ]
                 }
             ]
-        }).then(logChannel => {
-
-        }).catch(err => {
-
         });
 
         // Ask for queue setup
-        const queuesChannel = await interaction.guild.channels.create({
+        const queuesChannel = interaction.guild.channels.create({
             name: 'ap-queues',
             type: ChannelType.GuildText,
             permissionOverwrites: [
@@ -53,5 +56,18 @@ module.exports = {
                 }
             ]
         });
+
+        // Send queues as embeds
+
+        // Configuration
+        const config = {
+            guild_id: interaction.guildId,
+            log_channel_id: logChannel.id
+        };
+
+        GuildService.addConfig(config);
+
+        // Log
+        await LoggerService.log(interaction, "New log channel");
     }
 };
