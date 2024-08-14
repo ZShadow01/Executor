@@ -1,11 +1,12 @@
 const { SlashCommandBuilder, PermissionsBitField, ChatInputCommandInteraction, ChannelType } = require('discord.js');
 const GuildService = require('../../services/GuildService');
-const { MissingPermissionError } = require('../../errors/errors');
 const EmbedService = require('../../services/EmbedService');
 const LoggerService = require('../../services/LoggerService');
 
 
 module.exports = {
+    permissions: [ PermissionsBitField.Flags.ManageChannels ],
+
     data: new SlashCommandBuilder()
         .setName('setup')
         .setDescription('Setup the server automatically.')
@@ -16,13 +17,6 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction 
      */
     async execute(interaction) {
-        // Check for necessary permissions
-        const botMember = await interaction.guild.members.fetchMe();
-        const botPermissions = botMember.permissions;
-        if (!botPermissions.has(PermissionsBitField.Flags.ManageChannels)) {
-            throw new MissingPermissionError('MANAGE_CHANNEL');
-        }
-
         // Check if guild is setup already (reset)
         const guildConfig = GuildService.getConfig(interaction.guildId);
         if (guildConfig) {

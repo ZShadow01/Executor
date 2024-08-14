@@ -49,11 +49,23 @@ class CommandHandler {
 
         if (!command) {
             return await interaction.reply({
-                content: "Under reconstruction"
+                embeds: [ EmbedService.getErrorEmbed('Command not found.').toJSON() ]
             });
         }
 
         try {
+            // Check if bot has permission
+            if (command.permissions?.length > 0) {
+                const botMember = await interaction.guild.members.fetchMe();
+                const botPermissions = botMember.permissions;
+
+                for (const perm of command.permissions) {
+                    if (!botPermissions.has(perm)) {
+                        throw new errors.MissingPermissionError(perm);
+                    }
+                }
+            }
+
             // Check if guild is configured
             const guildConfig = GuildService.getConfig(interaction.guildId);
             console.log(guildConfig);
@@ -76,6 +88,8 @@ class CommandHandler {
                 console.error(err);
                 embed = EmbedService.getErrorEmbed();
             }
+
+            // Log to log channel
 
             await interaction.reply({
                 embeds: [ embed.toJSON() ]
