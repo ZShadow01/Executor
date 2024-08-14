@@ -39,7 +39,7 @@ class GuildNotConfiguredError extends AbstractError {
 
 class MissingPermissionError extends AbstractError {
     constructor(permission) {
-        super(`Missing Permission: ${permission}`);
+        super(`Missing Permission: ${permission}.`);
     }
 }
 
