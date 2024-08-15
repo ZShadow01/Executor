@@ -1,4 +1,4 @@
-const { Collection, ChatInputCommandInteraction } = require('discord.js');
+const { Collection, ChatInputCommandInteraction, PermissionsBitField } = require('discord.js');
 const errors = require('../../errors/errors');
 const fs = require('fs');
 const path = require('path');
@@ -61,7 +61,9 @@ class CommandHandler {
 
                 for (const perm of command.permissions) {
                     if (!botPermissions.has(perm)) {
-                        throw new errors.MissingPermissionError(perm);
+                        throw new errors.MissingPermissionError(
+                            (new PermissionsBitField(perm)).toArray().at(0)  // Convert flag to string
+                        );
                     }
                 }
             }
