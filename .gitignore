@@ -6,4 +6,4 @@ app/database/*.db-shm
 app/database/*.db-wal
 archive/
 node_modules/
-app/web/public/css
+app/web/public/css/*.css
