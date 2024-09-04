@@ -1,0 +1,15 @@
+@mixin transform($properties...) {
+    transform: $properties;
+    -o-transform: $properties;
+    -ms-transform: $properties;
+    -moz-transform: $properties;
+    -webkit-transform: $properties;
+}
+
+
+@mixin transition($properties...) {
+    transition: $properties;
+    -o-transition: $properties;
+    -moz-transition: $properties;
+    -webkit-transition: $properties;
+}

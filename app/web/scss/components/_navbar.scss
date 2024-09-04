@@ -1,0 +1,84 @@
+@use '../abstracts/mixins';
+@use '../abstracts/variables';
+
+
+.navbar {
+    // position: fixed;
+    // top: 0;
+    // left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: variables.$primary-colour;
+
+    .navbar-container {
+        // display: flex;
+        width: 95%;
+        height: 100%;
+        margin: auto;
+
+        .navbar-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+
+            height: 100%;
+
+            .navbar-item {
+                position: relative;
+                cursor: pointer;
+                @include mixins.transition(color 0.3s);
+
+                &::before {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    background-color: variables.$secondary-colour;
+                    width: 0;
+                    height: 2px;
+                    @include mixins.transition(width 0.3s);
+                }
+
+                &:hover {
+                    color: variables.$secondary-colour;
+
+                    &::before {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .navbar-profile {
+            display: inline-flex;
+            align-items: center;
+            gap: 40px;
+            float: right;
+            height: 100%;
+
+            .navbar-profile-container {
+                display: grid;
+                grid-template-rows: auto auto;
+                padding: 7px 10px 0 10px;
+                height: 100%;
+                text-align: center;
+                cursor: pointer;
+                text-decoration: none;
+                color: variables.$tertiary-colour;
+
+                @include mixins.transition(background-color 0.3s);
+
+                .navbar-profile-avatar {
+                    margin: auto;
+                    width: 40px;
+                    border-radius: 50%;
+                }
+
+                &:hover {
+                    background-color: variables.$background-colour;
+                }
+            }
+        }
+    }
+}

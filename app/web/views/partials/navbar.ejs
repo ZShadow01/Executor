@@ -1,0 +1,21 @@
+<nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-menu">
+            <div class="navbar-item">Dashboard</div>
+            <div class="navbar-item">Leaderboards</div>
+            <div class="navbar-item">Status</div>
+        </div>
+
+        <div class="navbar-profile">
+            <% if (user) { %>
+                <a class="navbar-profile-container" href="/dashboard">
+                    <img class="navbar-profile-avatar" src="<%= user.avatarUrl %>" alt="userAvatar">
+                    <%= user.username %>
+                </a>
+                <a class="button" href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            <% } else { %>
+                <a href="https://discord.com/oauth2/authorize?client_id=752889041057218721&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Fcallback&scope=identify+guilds" class="button"><i class="fa-solid fa-right-to-bracket"></i> Login with Discord</a>
+            <% } %>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,41 @@
+@use '../abstracts/variables';
+@use '../abstracts/mixins';
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html, body {
+    background-color: variables.$background-colour;
+    color: variables.$tertiary-colour;
+
+    font-family: 'Poppins', system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: variables.$font-size-medium;
+}
+
+
+.button {
+    font-family: 'Poppins', system-ui;
+    font-weight: 400;
+    font-style: normal;
+    color: variables.$secondary-colour;
+    border: solid 2px variables.$secondary-colour;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 2px 8px;
+    text-decoration: none;
+    cursor: pointer;
+
+    @include mixins.transition(background-color 0.3s, color 0.3s);
+
+    &:hover {
+        background-color: variables.$secondary-colour;
+        color: variables.$primary-colour;
+    }
+}
