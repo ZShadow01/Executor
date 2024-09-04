@@ -3,6 +3,9 @@
 
 
 .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: variables.$navbar-height;
     background-color: variables.$primary-colour;
