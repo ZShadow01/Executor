@@ -2,3 +2,43 @@
 @use 'abstracts';
 @use 'base';
 @use 'components';
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+
+    width: 90%;
+    margin: 5% auto auto auto;
+
+    .grid-item {
+        width: 250px;
+        height: 100%;
+        margin: auto;
+        background-color: abstracts.$primary-colour;
+        border: 2px solid abstracts.$tertiary-colour;
+        border-radius: 5px;
+        cursor: pointer;
+
+        @include abstracts.transition(border-color 0.3s, width 0.3s);
+
+        .grid-item-container {
+            margin: 10px;
+
+            hr {
+                border: 0.25px solid abstracts.$tertiary-colour;
+            }
+
+            .grid-item-description {
+                margin-top: 5px;
+                font-size: abstracts.$font-size-small;
+            }
+        }
+
+        &:hover {
+            border-color: abstracts.$secondary-colour;
+            width: 260px;
+        }
+    }
+}
