@@ -1,12 +1,16 @@
 require('dotenv').config();
 
+const ngrok = require('ngrok');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
 
 const { getUser, getAvatarUrl } = require('./scripts/APIService');
+const { isAuthenticated } = require('./scripts/AuthMiddleware');
 
 const app = express();
+let url = `http://localhost:${process.env.PORT}`;
+
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -14,6 +18,7 @@ app.use(session({
     saveUninitialized: true,
     // cookie: { secure: true }
 }));
+
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +45,9 @@ app.get('/', async (req, res) => {
 });
 
 
+app.use('/dashboard', isAuthenticated);
+
+
 app.get('/dashboard', async (req, res) => {
     const oauth2 = req.session.oauth2;
 
@@ -47,16 +55,19 @@ app.get('/dashboard', async (req, res) => {
         user: null
     };
     
-    if (oauth2) {
-        const user = await getUser(oauth2);
-        
-        options.user = {
-            username: user.username,
-            avatarUrl: getAvatarUrl(user.id, user.avatar)
-        };
-    }
+    const user = await getUser(oauth2);
+    
+    options.user = {
+        username: user.username,
+        avatarUrl: getAvatarUrl(user.id, user.avatar)
+    };
 
     res.render('dashboard', options);
+});
+
+
+app.get('/login', (req, res) => {
+    res.send('Login bruh');
 });
 
 
@@ -76,7 +87,7 @@ app.get('/auth/callback', async (req, res) => {
         "client_secret": process.env.CLIENT_SECRET,
         "grant_type": "authorization_code",
         "code": code.toString(),
-        "redirect_uri": `http://localhost:${process.env.PORT}/auth/callback`
+        "redirect_uri": url + "/auth/callback"
     });
 
     try {
@@ -106,6 +117,9 @@ app.get('/auth/callback', async (req, res) => {
 });
 
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, async () => {
     console.log("Listening on port " + process.env.PORT);
+
+    // url = await ngrok.connect(process.env.PORT);
+    console.log(url);
 });
