@@ -13,3 +13,9 @@
     -moz-transition: $properties;
     -webkit-transition: $properties;
 }
+
+
+@mixin object-fit($mode) {
+    object-fit: $mode;
+    -o-object-fit: $mode;
+}
