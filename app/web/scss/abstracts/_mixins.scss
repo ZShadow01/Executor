@@ -19,3 +19,10 @@
     object-fit: $mode;
     -o-object-fit: $mode;
 }
+
+
+@mixin user-select($mode) {
+    user-select: $mode;
+    -moz-user-select: $mode;
+    -webkit-user-select: $mode;
+}
