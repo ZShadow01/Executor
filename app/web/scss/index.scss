@@ -26,6 +26,7 @@
                 flex: 1;
                 height: 100%;
                 overflow: hidden;
+                @include abstracts.user-select(none);
     
                 .character-image {
                     width: 100%;
