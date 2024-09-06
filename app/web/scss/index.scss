@@ -3,18 +3,19 @@
 @use 'base';
 @use 'components';
 
-.background {
+
+.header {
     position: absolute;
     width: 100vw;
     height: 100vh;
 
-    .background-top-half {
+    .header-top {
         position: relative;
         width: 100%;
         height: 50vh;
         background: radial-gradient(circle at 50% 500%, abstracts.$secondary-colour, black);
 
-        .background-top-container {
+        .header-top-container {
             display: flex;
             position: absolute;
             bottom: 0;
@@ -62,13 +63,13 @@
         }
     }
 
-    .background-bottom-half {
+    .header-bottom {
         width: 100%;
         height: 50vh;
         overflow: hidden;
         position: relative;
 
-        .background-clip {
+        .header-clip {
             // position: absolute;
             // top: 50%;
             // left: 0;
